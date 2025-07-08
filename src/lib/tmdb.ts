@@ -44,7 +44,7 @@ export const tmdbApi = {
   searchMovies: async (query: string): Promise<Movie[]> => {
     try {
       // For demo purposes, return filtered mock data
-      return mockTrendingMovies.filter(movie => 
+      return mockAllMovies.filter(movie => 
         movie.title.toLowerCase().includes(query.toLowerCase())
       );
     } catch (error) {
@@ -55,7 +55,7 @@ export const tmdbApi = {
 
   getMovieDetails: async (id: number): Promise<MovieDetails | null> => {
     try {
-      const movie = mockTrendingMovies.find(m => m.id === id);
+      const movie = mockAllMovies.find(m => m.id === id);
       if (movie) {
         return {
           ...movie,
@@ -88,7 +88,7 @@ export const getBackdropUrl = (path: string | null): string => {
   return `${TMDB_BACKDROP_BASE_URL}${path}`;
 };
 
-// Mock data for demo
+// Mock data for demo - trending movies (shown on homepage)
 const mockTrendingMovies: Movie[] = [
   {
     id: 1,
@@ -154,6 +154,121 @@ const mockTrendingMovies: Movie[] = [
     release_date: "2021-09-15",
     vote_average: 8.0,
     genre_ids: [878, 12],
+    adult: false
+  }
+];
+
+// Extended mock data for search functionality
+const mockAllMovies: Movie[] = [
+  ...mockTrendingMovies,
+  {
+    id: 7,
+    title: "Avengers: Endgame",
+    overview: "After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos' actions and restore order to the universe once and for all.",
+    poster_path: "/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+    backdrop_path: "/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg",
+    release_date: "2019-04-24",
+    vote_average: 8.3,
+    genre_ids: [28, 12, 18],
+    adult: false
+  },
+  {
+    id: 8,
+    title: "Avengers: Infinity War",
+    overview: "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos.",
+    poster_path: "/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
+    backdrop_path: "/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg",
+    release_date: "2018-04-25",
+    vote_average: 8.3,
+    genre_ids: [28, 12, 878],
+    adult: false
+  },
+  {
+    id: 9,
+    title: "Iron Man",
+    overview: "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
+    poster_path: "/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+    backdrop_path: "/9BBTo63ANSmhC4e6r62OJFuK2GL.jpg",
+    release_date: "2008-04-30",
+    vote_average: 7.6,
+    genre_ids: [28, 12, 878],
+    adult: false
+  },
+  {
+    id: 10,
+    title: "Captain America: The First Avenger",
+    overview: "During World War II, Steve Rogers is a sickly man from Brooklyn who's transformed into super-soldier Captain America to aid in the war effort.",
+    poster_path: "/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+    backdrop_path: "/6bbZ6XyvgfjhQwbplnUh1LSj1ky.jpg",
+    release_date: "2011-07-22",
+    vote_average: 7.0,
+    genre_ids: [28, 12, 878],
+    adult: false
+  },
+  {
+    id: 11,
+    title: "Thor",
+    overview: "Against his father Odin's will, The Mighty Thor - a powerful but arrogant warrior god - recklessly reignites an ancient war.",
+    poster_path: "/bIuOWTtyFPjsFDevqvF3QrD1aun.jpg",
+    backdrop_path: "/iAr4BgxdW9WAlFLZNdeFE8bXp7S.jpg",
+    release_date: "2011-04-21",
+    vote_average: 7.0,
+    genre_ids: [28, 12, 14],
+    adult: false
+  },
+  {
+    id: 12,
+    title: "Guardians of the Galaxy",
+    overview: "Light years from Earth, 26 years after being abducted, Peter Quill finds himself the prime target of a manhunt after discovering an orb wanted by Ronan the Accuser.",
+    poster_path: "/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
+    backdrop_path: "/bHarw8xrmQeqf3t8HpuMY7zoK4x.jpg",
+    release_date: "2014-07-30",
+    vote_average: 7.9,
+    genre_ids: [28, 12, 878],
+    adult: false
+  },
+  {
+    id: 13,
+    title: "The Dark Knight",
+    overview: "Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets.",
+    poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    backdrop_path: "/hqkIcbrOHL86UncnHIsHVcVmzue.jpg",
+    release_date: "2008-07-16",
+    vote_average: 9.0,
+    genre_ids: [18, 28, 80],
+    adult: false
+  },
+  {
+    id: 14,
+    title: "Interstellar",
+    overview: "The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.",
+    poster_path: "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    backdrop_path: "/pbrkL804c8yAv4Hg3jkbF4a4ONQ.jpg",
+    release_date: "2014-11-05",
+    vote_average: 8.6,
+    genre_ids: [12, 18, 878],
+    adult: false
+  },
+  {
+    id: 15,
+    title: "Inception",
+    overview: "Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible.",
+    poster_path: "/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
+    backdrop_path: "/s3TBrRGB1iav7gFOCNx3H31MoES.jpg",
+    release_date: "2010-07-15",
+    vote_average: 8.8,
+    genre_ids: [28, 878, 53],
+    adult: false
+  },
+  {
+    id: 16,
+    title: "Joker",
+    overview: "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
+    poster_path: "/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+    backdrop_path: "/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg",
+    release_date: "2019-10-01",
+    vote_average: 8.2,
+    genre_ids: [80, 18, 53],
     adult: false
   }
 ];
