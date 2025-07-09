@@ -6,13 +6,11 @@ import { Movie, tmdbApi } from '@/lib/tmdb';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { useFaviconRemover } from '@/hooks/useFaviconRemover';
 
 const Index = () => {
   const [favorites, setFavorites] = useState<number[]>([]);
 
   useDocumentTitle();
-  useFaviconRemover();
 
   const { data: movies = [], isLoading } = useQuery({
     queryKey: ['trending-movies'],
