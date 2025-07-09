@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
@@ -6,9 +5,12 @@ import MovieCard from '@/components/MovieCard';
 import { Movie, tmdbApi } from '@/lib/tmdb';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 const Index = () => {
   const [favorites, setFavorites] = useState<number[]>([]);
+
+  useDocumentTitle();
 
   const { data: movies = [], isLoading } = useQuery({
     queryKey: ['trending-movies'],
