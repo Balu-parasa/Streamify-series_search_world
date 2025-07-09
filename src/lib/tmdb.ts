@@ -1,10 +1,9 @@
-
 // TMDB API configuration
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const TMDB_BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
-// Using a demo API key - users should replace with their own
-const TMDB_API_KEY = '7c1e6ac51b7b7e5b1e5f5b5b5b5b5b5b';
+// You'll need to replace this with your actual TMDB API key
+const TMDB_API_KEY = 'YOUR_API_KEY_HERE';
 
 export interface Movie {
   id: number;
@@ -33,8 +32,16 @@ export interface MovieDetails extends Movie {
 export const tmdbApi = {
   getTrending: async (): Promise<Movie[]> => {
     try {
-      // For demo purposes, return mock data since we need a real API key
-      return mockTrendingMovies;
+      if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
+        console.warn('Using mock data - please add your TMDB API key');
+        return mockTrendingMovies;
+      }
+      
+      const response = await fetch(
+        `${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}`
+      );
+      const data = await response.json();
+      return data.results || mockTrendingMovies;
     } catch (error) {
       console.error('Error fetching trending movies:', error);
       return mockTrendingMovies;
@@ -43,10 +50,17 @@ export const tmdbApi = {
 
   searchMovies: async (query: string): Promise<Movie[]> => {
     try {
-      // For demo purposes, return filtered mock data
-      return mockAllMovies.filter(movie => 
-        movie.title.toLowerCase().includes(query.toLowerCase())
+      if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
+        return mockAllMovies.filter(movie => 
+          movie.title.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+
+      const response = await fetch(
+        `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
       );
+      const data = await response.json();
+      return data.results || [];
     } catch (error) {
       console.error('Error searching movies:', error);
       return [];
@@ -55,22 +69,38 @@ export const tmdbApi = {
 
   getMovieDetails: async (id: number): Promise<MovieDetails | null> => {
     try {
-      const movie = mockAllMovies.find(m => m.id === id);
-      if (movie) {
-        return {
-          ...movie,
-          genres: [{ id: 1, name: 'Action' }, { id: 2, name: 'Adventure' }],
-          runtime: 120,
-          videos: {
-            results: [{
-              key: 'dQw4w9WgXcQ',
-              type: 'Trailer',
-              site: 'YouTube'
-            }]
-          }
-        };
+      if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
+        const movie = mockAllMovies.find(m => m.id === id);
+        if (movie) {
+          return {
+            ...movie,
+            genres: [{ id: 1, name: 'Action' }, { id: 2, name: 'Adventure' }],
+            runtime: 120,
+            videos: {
+              results: [{
+                key: 'dQw4w9WgXcQ',
+                type: 'Trailer',
+                site: 'YouTube'
+              }]
+            }
+          };
+        }
+        return null;
       }
-      return null;
+
+      // Fetch movie details with videos
+      const [detailsResponse, videosResponse] = await Promise.all([
+        fetch(`${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}`),
+        fetch(`${TMDB_BASE_URL}/movie/${id}/videos?api_key=${TMDB_API_KEY}`)
+      ]);
+
+      const details = await detailsResponse.json();
+      const videos = await videosResponse.json();
+
+      return {
+        ...details,
+        videos: videos
+      };
     } catch (error) {
       console.error('Error fetching movie details:', error);
       return null;
