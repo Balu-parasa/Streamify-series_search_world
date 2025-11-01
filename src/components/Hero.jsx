@@ -1,15 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import { Play, Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Movie, getBackdropUrl } from '@/lib/tmdb';
+import { getBackdropUrl } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 
-interface HeroProps {
-  movies: Movie[];
-}
-
-const Hero = ({ movies }: HeroProps) => {
+const Hero = ({ movies }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 

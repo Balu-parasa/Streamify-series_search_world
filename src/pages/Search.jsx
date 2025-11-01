@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Search as SearchIcon, Filter } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import MovieCard from '@/components/MovieCard';
-import { Movie, tmdbApi } from '@/lib/tmdb';
+import { tmdbApi } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -11,9 +10,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const Search = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Movie[]>([]);
+  const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState([]);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -23,7 +22,7 @@ const Search = () => {
     }
   }, []);
 
-  const handleSearch = async (searchQuery: string) => {
+  const handleSearch = async (searchQuery) => {
     if (!searchQuery.trim()) {
       setResults([]);
       return;
@@ -40,12 +39,12 @@ const Search = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     handleSearch(query);
   };
 
-  const handleToggleFavorite = (movie: Movie) => {
+  const handleToggleFavorite = (movie) => {
     const newFavorites = favorites.includes(movie.id)
       ? favorites.filter(id => id !== movie.id)
       : [...favorites, movie.id];

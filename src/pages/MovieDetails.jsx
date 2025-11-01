@@ -1,16 +1,15 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Play, Heart, Star, Calendar, Clock } from 'lucide-react';
 import Navigation from '@/components/Navigation';
-import { MovieDetails as MovieDetailsType, tmdbApi, getBackdropUrl, getImageUrl } from '@/lib/tmdb';
+import { tmdbApi, getBackdropUrl, getImageUrl } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 const MovieDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const [movie, setMovie] = useState<MovieDetailsType | null>(null);
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const { toast } = useToast();
@@ -47,7 +46,7 @@ const MovieDetails = () => {
     const favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
     
     if (isFavorite) {
-      const newFavorites = favorites.filter((fId: number) => fId !== movie.id);
+      const newFavorites = favorites.filter((fId) => fId !== movie.id);
       localStorage.setItem('streamify_favorites', JSON.stringify(newFavorites));
       setIsFavorite(false);
       toast({

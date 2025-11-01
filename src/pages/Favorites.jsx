@@ -1,16 +1,14 @@
-
 import { useState, useEffect } from 'react';
 import { Heart, Trash2 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import MovieCard from '@/components/MovieCard';
-import { Movie } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState<Movie[]>([]);
-  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState([]);
+  const [favoriteIds, setFavoriteIds] = useState([]);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -20,8 +18,8 @@ const Favorites = () => {
       setFavoriteIds(ids);
       
       // Load movie details from localStorage
-      const movies: Movie[] = [];
-      ids.forEach((id: number) => {
+      const movies = [];
+      ids.forEach((id) => {
         const movieData = localStorage.getItem(`movie_${id}`);
         if (movieData) {
           movies.push(JSON.parse(movieData));
@@ -31,7 +29,7 @@ const Favorites = () => {
     }
   }, []);
 
-  const handleToggleFavorite = (movie: Movie) => {
+  const handleToggleFavorite = (movie) => {
     const newFavoriteIds = favoriteIds.filter(id => id !== movie.id);
     const newFavorites = favorites.filter(fav => fav.id !== movie.id);
     

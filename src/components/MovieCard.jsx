@@ -1,22 +1,15 @@
-
 import { useState } from 'react';
 import { Heart, Star, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Movie, getImageUrl } from '@/lib/tmdb';
+import { getImageUrl } from '@/lib/tmdb';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
-interface MovieCardProps {
-  movie: Movie;
-  onToggleFavorite?: (movie: Movie) => void;
-  isFavorite?: boolean;
-}
-
-const MovieCard = ({ movie, onToggleFavorite, isFavorite = false }: MovieCardProps) => {
+const MovieCard = ({ movie, onToggleFavorite, isFavorite = false }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { toast } = useToast();
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (onToggleFavorite) {

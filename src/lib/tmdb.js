@@ -5,32 +5,8 @@ const TMDB_BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
 // You'll need to replace this with your actual TMDB API key
 const TMDB_API_KEY = 'YOUR_API_KEY_HERE';
 
-export interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string | null;
-  backdrop_path: string | null;
-  release_date: string;
-  vote_average: number;
-  genre_ids: number[];
-  adult: boolean;
-}
-
-export interface MovieDetails extends Movie {
-  genres: { id: number; name: string }[];
-  runtime: number;
-  videos: {
-    results: {
-      key: string;
-      type: string;
-      site: string;
-    }[];
-  };
-}
-
 export const tmdbApi = {
-  getTrending: async (): Promise<Movie[]> => {
+  getTrending: async () => {
     try {
       if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
         console.warn('Using mock data - please add your TMDB API key');
@@ -48,7 +24,7 @@ export const tmdbApi = {
     }
   },
 
-  searchMovies: async (query: string): Promise<Movie[]> => {
+  searchMovies: async (query) => {
     try {
       if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
         return mockAllMovies.filter(movie => 
@@ -67,7 +43,7 @@ export const tmdbApi = {
     }
   },
 
-  getMovieDetails: async (id: number): Promise<MovieDetails | null> => {
+  getMovieDetails: async (id) => {
     try {
       if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
         const movie = mockAllMovies.find(m => m.id === id);
@@ -108,18 +84,18 @@ export const tmdbApi = {
   }
 };
 
-export const getImageUrl = (path: string | null): string => {
+export const getImageUrl = (path) => {
   if (!path) return '/placeholder.svg';
   return `${TMDB_IMAGE_BASE_URL}${path}`;
 };
 
-export const getBackdropUrl = (path: string | null): string => {
+export const getBackdropUrl = (path) => {
   if (!path) return '/placeholder.svg';
   return `${TMDB_BACKDROP_BASE_URL}${path}`;
 };
 
 // Mock data for demo - trending movies (shown on homepage)
-const mockTrendingMovies: Movie[] = [
+const mockTrendingMovies = [
   {
     id: 1,
     title: "Avatar: The Way of Water",
@@ -189,7 +165,7 @@ const mockTrendingMovies: Movie[] = [
 ];
 
 // Extended mock data for search functionality
-const mockAllMovies: Movie[] = [
+const mockAllMovies = [
   ...mockTrendingMovies,
   {
     id: 7,
