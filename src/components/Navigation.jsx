@@ -28,12 +28,8 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 flex items-center justify-center">
-              <img 
-                src="/lovable-uploads/95b47261-ee38-4177-8dc3-296b7f9638cf.png" 
-                alt="Lovable Logo" 
-                className="w-8 h-8 object-contain"
-              />
+            <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">S</span>
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-red-500 to-purple-500 bg-clip-text text-transparent">
               Streamify
