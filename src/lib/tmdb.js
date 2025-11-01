@@ -2,8 +2,8 @@
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const TMDB_BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
-// You'll need to replace this with your actual TMDB API key
-const TMDB_API_KEY = 'YOUR_API_KEY_HERE';
+// Get your free API key from https://www.themoviedb.org/settings/api
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY || 'YOUR_API_KEY_HERE';
 
 export const tmdbApi = {
   getTrending: async () => {
