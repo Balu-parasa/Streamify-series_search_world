@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Play, Heart, Star, Calendar, Clock } from 'lucide-react';
 import Navigation from '@/components/Navigation';
@@ -13,6 +13,7 @@ const MovieDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const { toast } = useToast();
+  const trailerRef = useRef(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -172,16 +173,14 @@ const MovieDetails = () => {
 
               <div className="flex gap-4">
                 {trailerKey && (
-                  <a
-                    href={`https://www.youtube.com/watch?v=${trailerKey}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Button 
+                    size="lg" 
+                    className="bg-red-600 hover:bg-red-700"
+                    onClick={() => trailerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
                   >
-                    <Button size="lg" className="bg-red-600 hover:bg-red-700">
-                      <Play className="w-5 h-5 mr-2" />
-                      Watch Trailer
-                    </Button>
-                  </a>
+                    <Play className="w-5 h-5 mr-2" />
+                    Watch Trailer
+                  </Button>
                 )}
                 <Button
                   onClick={handleToggleFavorite}
@@ -211,7 +210,7 @@ const MovieDetails = () => {
 
             {/* Trailer Section */}
             {trailerKey && (
-              <div className="mb-8">
+              <div className="mb-8" ref={trailerRef}>
                 <h3 className="text-xl font-bold text-white mb-4">Trailer</h3>
                 <div className="aspect-video rounded-xl overflow-hidden">
                   <iframe
