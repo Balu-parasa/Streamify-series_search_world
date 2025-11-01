@@ -46,17 +46,37 @@ export const tmdbApi = {
   getMovieDetails: async (id) => {
     try {
       if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
+        const mockKeyMap = {
+          1: 'd9MyW72ELq0', // Avatar: The Way of Water
+          2: 'RlOB3UALvrQ', // Black Panther: Wakanda Forever
+          3: 'qSqVVswa420', // Top Gun: Maverick
+          4: 'JfVOs4VSpmA', // Spider-Man: No Way Home
+          5: 'mqqft2x_Aa4', // The Batman
+          6: 'n9xhJrPXop4', // Dune
+          7: 'TcMBFSGVi1c', // Avengers: Endgame
+          8: '6ZfuNTqbHE8', // Avengers: Infinity War
+          9: '8hYlB38asDY', // Iron Man
+          10: 'JerVrbLldXw', // Captain America: The First Avenger
+          11: 'JOddp-nlNvQ', // Thor
+          12: 'd96cjJhvlMA', // Guardians of the Galaxy
+          13: 'EXeTwQWrcwY', // The Dark Knight
+          14: 'zSWdZVtXT7E', // Interstellar
+          15: '8hP9D6kZseM', // Inception
+          16: 'zAGVQLHvwOY', // Joker
+        };
         const movie = mockAllMovies.find(m => m.id === id);
         if (movie) {
+          const key = mockKeyMap[id] || 'dQw4w9WgXcQ';
           return {
             ...movie,
             genres: [{ id: 1, name: 'Action' }, { id: 2, name: 'Adventure' }],
             runtime: 120,
             videos: {
               results: [{
-                key: 'dQw4w9WgXcQ',
+                key,
                 type: 'Trailer',
-                site: 'YouTube'
+                site: 'YouTube',
+                name: 'Official Trailer'
               }]
             }
           };
@@ -64,19 +84,14 @@ export const tmdbApi = {
         return null;
       }
 
-      // Fetch movie details with videos
-      const [detailsResponse, videosResponse] = await Promise.all([
-        fetch(`${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}`),
-        fetch(`${TMDB_BASE_URL}/movie/${id}/videos?api_key=${TMDB_API_KEY}`)
-      ]);
+      // Fetch movie details with videos in one request
+      const response = await fetch(
+        `${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos&language=en-US`
+      );
 
-      const details = await detailsResponse.json();
-      const videos = await videosResponse.json();
+      const details = await response.json();
 
-      return {
-        ...details,
-        videos: videos
-      };
+      return details;
     } catch (error) {
       console.error('Error fetching movie details:', error);
       return null;

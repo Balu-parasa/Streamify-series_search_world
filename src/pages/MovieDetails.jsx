@@ -106,9 +106,14 @@ const MovieDetails = () => {
     );
   }
 
-  const trailerKey = movie.videos?.results?.find(
-    video => video.type === 'Trailer' && video.site === 'YouTube'
-  )?.key;
+  const videos = movie.videos?.results || [];
+  const ytVideos = videos.filter(v => v.site === 'YouTube');
+  const preferredVideo =
+    ytVideos.find(v => v.type === 'Trailer' && /official/i.test(v.name || '')) ||
+    ytVideos.find(v => v.type === 'Trailer') ||
+    ytVideos.find(v => v.type === 'Teaser') ||
+    ytVideos[0];
+  const trailerKey = preferredVideo?.key;
 
   return (
     <div className="min-h-screen bg-black">
